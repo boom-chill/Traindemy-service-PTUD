@@ -3,6 +3,10 @@ package com.example.demo.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+/**
+ * @author MSI-Nam
+ *
+ */
 @Document(collection = "User")
 public class userModel {
 	@Id
@@ -10,28 +14,40 @@ public class userModel {
 	private String userName;
 	private String password;
 	private String role;
+	private String name;
 
 	public userModel(String userName, String password) {
 		super();
-		this.setUserName(userName);
-		this.setPassword(password);
+		this.userName = userName;
+		this.password = password;
 	}
 	
 	public userModel(String userName, String password, String role) {
 		super();
-		this.setUserName(userName);
-		this.setPassword(password);
-		this.setRole(role);
+		this.userName = userName;
+		this.password = password;
+		this.role = role;
 	}
 
 	public userModel(String userId, String userName, String password, String role) {
 		super();
 		this._id = userId;
-		this.setUserName(userName);
-		this.setPassword(password);
-		this.setRole(role);
+		this.userName = userName;
+		this.password = password;
+		this.role = role;
 	}
 	
+	
+	
+	public userModel(String _id, String userName, String password, String role, String name) {
+		super();
+		this._id = _id;
+		this.userName = userName;
+		this.password = password;
+		this.role = role;
+		this.name = name;
+	}
+
 	public userModel() {
 		super();
 	}
@@ -66,6 +82,14 @@ public class userModel {
 
 	public void setRole(String role) {
 		this.role = role;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 }
 

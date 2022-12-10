@@ -16,6 +16,7 @@ public class courseModel {
 	private String trainingSkill;
 	private String target;
 	private List<sessionModel> sessions;
+	private String author; // userId
 	
 	public courseModel() {
 		super();
@@ -46,6 +47,21 @@ public class courseModel {
 		this.sessions = sessions;
 	}
 	
+	
+	public courseModel(String _id, String courseName, String room, String password, String description,
+			String trainingSkill, String target, List<sessionModel> sessions, String author) {
+		super();
+		this._id = _id;
+		this.author = author;
+		this.courseName = courseName;
+		this.room = room;
+		this.password = password;
+		this.description = description;
+		this.trainingSkill = trainingSkill;
+		this.target = target;
+		this.sessions = sessions;
+	}
+
 	public String get_id() {
 		return _id;
 	}
@@ -108,6 +124,14 @@ public class courseModel {
 
 	public void setSessions(List<sessionModel> sesions) {
 		this.sessions = sesions;
+	}
+
+	public String getAuthor() {
+		return author;
+	}
+
+	public void setAuthor(String author) {
+		this.author = author;
 	}
 
 	
