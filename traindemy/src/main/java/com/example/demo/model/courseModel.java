@@ -36,7 +36,7 @@ public class courseModel {
 	}
 
 	public courseModel(String courseName, String room, String password, String description, String trainingSkill,
-			String target, List<sessionModel> sessions) {
+			String target, List<sessionModel> sessions, String author) {
 		super();
 		this.courseName = courseName;
 		this.room = room;
@@ -45,6 +45,7 @@ public class courseModel {
 		this.trainingSkill = trainingSkill;
 		this.target = target;
 		this.sessions = sessions;
+		this.author = author;
 	}
 	
 	
