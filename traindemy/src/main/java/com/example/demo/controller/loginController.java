@@ -31,7 +31,7 @@ public class loginController {
 			return new ResponseEntity<>(userData, HttpStatus.OK);
 		}
 		
-		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 }
 

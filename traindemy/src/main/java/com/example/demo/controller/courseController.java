@@ -73,7 +73,7 @@ public class courseController {
 				courseList = courseRepo.findByAuthor(trainerId);
 			}
 		if (courseList.isEmpty()) {
-			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 			return new ResponseEntity<>(courseList, HttpStatus.OK);
 		} catch (Exception e) {

@@ -50,7 +50,7 @@ public class assignmentController {
 				assignmentList = assignmentRepo.findBySessionId(sessionId);
 			}
 		if (assignmentList.isEmpty()) {
-			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 			return new ResponseEntity<>(assignmentList, HttpStatus.OK);
 		} catch (Exception e) {

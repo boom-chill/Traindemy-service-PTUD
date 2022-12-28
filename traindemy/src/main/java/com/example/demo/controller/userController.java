@@ -17,7 +17,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.dto.userCourseResponseDto;
+import com.example.demo.dto.userResponseDto;
+import com.example.demo.model.courseModel;
+import com.example.demo.model.userCourseModel;
 import com.example.demo.model.userModel;
+import com.example.demo.repository.courseRepository;
 import com.example.demo.repository.userRepository;
 
 
@@ -28,6 +33,11 @@ public class userController {
 	@Autowired
 	userRepository userRepo;
 	
+	@Autowired
+	courseRepository courseRepo;
+	
+	Logger logger = LoggerFactory.getLogger(studentController.class);
+	
 	@PostMapping("/addUser")
 	public ResponseEntity<userModel> addUser(@RequestBody userModel user) {
 		try {
@@ -37,6 +47,42 @@ public class userController {
 					<>(_user, HttpStatus.CREATED);
 		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	
+	@GetMapping("/users/{id}")
+	public ResponseEntity<userResponseDto> getUserDetail(@PathVariable("id") String id) {
+		Optional<userModel> userData = userRepo.findById(id);
+		if (userData.isPresent()) {
+			userModel _user = userData.get();
+			
+			List<userCourseModel> userCourseList =  _user.getCourses();
+			List<userCourseResponseDto> userCourseRes = new ArrayList<userCourseResponseDto>();
+			
+			if(!(userCourseList == null)) {
+				for (userCourseModel userCourse: userCourseList ) {
+					String courseId = userCourse.getId();
+					logger.info(courseId);
+					if(!(courseId == null)) {
+						Optional<courseModel> courseData = courseRepo.findById(courseId);
+						courseModel _userCourse = courseData.get();
+						userCourseResponseDto _userCourseRes = new userCourseResponseDto(userCourse.getId(), userCourse.getStatus(), userCourse.getScore(), _userCourse.getCourseName(), _userCourse.getTrainingSkill());
+						userCourseRes.add(_userCourseRes);
+					}
+				}
+			}
+			userResponseDto userRes = new userResponseDto(
+					_user.getId(),
+					_user.getUserName(),
+					_user.getRole(),
+					_user.getName(),
+					userCourseRes
+			); 
+			
+			return new ResponseEntity<>(userRes, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
 	
@@ -57,25 +103,15 @@ public class userController {
 	
 	@PutMapping("/users/{id}")
 	public ResponseEntity<userModel> editUser(@PathVariable("id") String id, @RequestBody userModel 
-	user) {
-		Optional<userModel> userData = userRepo.findById(id);
-		if (userData.isPresent()) {
-			userModel _user = userData.get();
-			_user.setUserName(user.getUserName());
-			_user.setPassword(user.getPassword());
-			_user.setRole(user.getRole());
-			return new ResponseEntity<>(userRepo.save(_user), HttpStatus.OK);
-		} else {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
-	}
-	
-	@GetMapping("/users/{id}")
-	public ResponseEntity<Optional<userModel>> getUserDetail(@PathVariable("id") String id) {
+			user) {
 		try {
 			Optional<userModel> userData = userRepo.findById(id);
 			if (userData.isPresent()) {
-				return new ResponseEntity<>(userData, HttpStatus.OK);
+				userModel _user = userData.get();
+				_user.setUserName(user.getUserName());
+				_user.setPassword(user.getPassword());
+				_user.setRole(user.getRole());
+				return new ResponseEntity<>(userRepo.save(_user), HttpStatus.OK);
 			} else {
 				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 			}
