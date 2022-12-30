@@ -63,6 +63,12 @@ public class courseModel {
 		this.sessions = sessions;
 	}
 
+	public courseModel(String _id, String courseName) {
+		super();
+		this._id = _id;
+		this.courseName = courseName;
+	}
+
 	public String get_id() {
 		return _id;
 	}

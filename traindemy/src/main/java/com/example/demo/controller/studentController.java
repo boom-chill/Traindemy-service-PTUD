@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -63,17 +64,13 @@ public class studentController {
 		userModel _user = userData.get();
 	
 		if(_user.getRole().equals("student")) {
-			
 			List<userCourseModel> userCourses = _user.getCourses();
-			
 			for(userCourseModel userCourse : userCourses) {
 				if(courseId.equals(userCourse.getId())) {
 					userCourse.setScore(score);
 					userCourse.setStatus(status);
 				}
 			}
-
-			
 			return new ResponseEntity<>(userRepo.save(_user), HttpStatus.OK);
 		}
 		
