@@ -8,17 +8,14 @@ public class skillModel {
 	@Id
 	private String _id;
 	private String skillName;
-	
 	public skillModel(String _id, String skillName) {
 		super();
 		this._id = _id;
 		this.skillName = skillName;
 	}
-	
 	public skillModel() {
 		super();
 	}
-	
 	public String get_id() {
 		return _id;
 	}

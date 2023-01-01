@@ -78,6 +78,7 @@ public class departmentController {
 			if (classData.isPresent()) {
 				departmentModel _department = classData.get();
 				_department.setDepartmentName(department.getDepartmentName());
+				_department.setLevels(department.getLevels());
 				return new ResponseEntity<>(departmentRepo.save(_department), HttpStatus.OK);
 			} else {
 				return new ResponseEntity<>(HttpStatus.NOT_FOUND);

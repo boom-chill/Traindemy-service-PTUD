@@ -32,7 +32,7 @@ public class levelController {
 	
 	Logger logger = LoggerFactory.getLogger(classController.class);
 	
-	@PostMapping("/addlevel")
+	@PostMapping("/addLevel")
 	public ResponseEntity<levelModel> addLevel(@RequestBody levelModel level) {
 		try {
 			levelModel _level = levelRepo.save(level);
@@ -78,6 +78,7 @@ public class levelController {
 			if (classData.isPresent()) {
 				levelModel _level = classData.get();
 				_level.setLevelName(level.getLevelName());
+				_level.setSkills(level.getSkills());
 				return new ResponseEntity<>(levelRepo.save(_level), HttpStatus.OK);
 			} else {
 				return new ResponseEntity<>(HttpStatus.NOT_FOUND);

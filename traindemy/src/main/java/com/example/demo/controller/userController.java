@@ -41,8 +41,7 @@ public class userController {
 	@PostMapping("/addUser")
 	public ResponseEntity<userModel> addUser(@RequestBody userModel user) {
 		try {
-			userModel _user = userRepo.save(new userModel(user.getUserName(),
-					user.getPassword(), user.getRole()));
+			userModel _user = userRepo.save(user);
 			return new ResponseEntity
 					<>(_user, HttpStatus.CREATED);
 		} catch (Exception e) {
@@ -67,19 +66,26 @@ public class userController {
 					if(!(courseId == null)) {
 						Optional<courseModel> courseData = courseRepo.findById(courseId);
 						courseModel _userCourse = courseData.get();
-						userCourseResponseDto _userCourseRes = new userCourseResponseDto(userCourse.getId(), userCourse.getStatus(), userCourse.getScore(), _userCourse.getCourseName(), _userCourse.getTrainingSkill());
+						userCourseResponseDto _userCourseRes = new userCourseResponseDto(
+								userCourse.getId(), 
+								userCourse.getStatus(),
+								userCourse.getScore(),
+								_userCourse.getCourseName(),
+								_userCourse.getSkill());
 						userCourseRes.add(_userCourseRes);
 					}
 				}
 			}
 			userResponseDto userRes = new userResponseDto(
-					_user.getId(),
+					_user.get_id(),
 					_user.getUserName(),
+					_user.getDOB(),
+					_user.getLevel(),	
+					_user.getEmail(),
 					_user.getRole(),
 					_user.getName(),
 					userCourseRes
-			); 
-			
+			);
 			return new ResponseEntity<>(userRes, HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -88,7 +94,6 @@ public class userController {
 	
 	@GetMapping("/users")
 	public ResponseEntity<List<userModel>> userList() {
-		
 		try {
 			List<userModel> userList = new ArrayList<userModel>();
 			userRepo.findAll().forEach(userList::add);
@@ -109,6 +114,10 @@ public class userController {
 			if (userData.isPresent()) {
 				userModel _user = userData.get();
 				_user.setUserName(user.getUserName());
+				_user.setName(user.getName());
+				_user.setLevel(user.getLevel());
+				_user.setDOB(user.getDOB());
+				_user.setEmail(user.getEmail());
 				_user.setPassword(user.getPassword());
 				_user.setRole(user.getRole());
 				return new ResponseEntity<>(userRepo.save(_user), HttpStatus.OK);
